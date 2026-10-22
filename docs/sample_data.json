@@ -1,0 +1,389 @@
+[
+{
+  "model": "airport.airline",
+  "pk": 1,
+  "fields": {
+    "is_active": true,
+    "name": "Northstar Air",
+    "country": "India",
+    "contact": "ops@northstar.example"
+  }
+},
+{
+  "model": "airport.airport",
+  "pk": 1,
+  "fields": {
+    "is_active": true,
+    "name": "Aurora Private Airport",
+    "city": "Bengaluru",
+    "country": "India",
+    "iata_code": "AUR"
+  }
+},
+{
+  "model": "airport.airport",
+  "pk": 2,
+  "fields": {
+    "is_active": true,
+    "name": "Northport City Airport",
+    "city": "Northport",
+    "country": "India",
+    "iata_code": "NPT"
+  }
+},
+{
+  "model": "airport.aircraft",
+  "pk": 1,
+  "fields": {
+    "is_active": true,
+    "registration": "VT-AUR1",
+    "model": "Aero 12",
+    "capacity": 12,
+    "manufacture_date": null,
+    "airline": 1,
+    "status": "available"
+  }
+},
+{
+  "model": "airport.aircraft",
+  "pk": 2,
+  "fields": {
+    "is_active": true,
+    "registration": "VT-AUR2",
+    "model": "Aero 12",
+    "capacity": 12,
+    "manufacture_date": null,
+    "airline": 1,
+    "status": "available"
+  }
+},
+{
+  "model": "airport.terminal",
+  "pk": 1,
+  "fields": {
+    "is_active": true,
+    "airport": 1,
+    "number": "1",
+    "name": "Main Terminal"
+  }
+},
+{
+  "model": "airport.gate",
+  "pk": 1,
+  "fields": {
+    "is_active": true,
+    "terminal": 1,
+    "number": "A1",
+    "gate_type": "domestic"
+  }
+},
+{
+  "model": "airport.runway",
+  "pk": 1,
+  "fields": {
+    "is_active": true,
+    "airport": 1,
+    "number": "09/27",
+    "length_m": 3200,
+    "surface_type": "Asphalt"
+  }
+},
+{
+  "model": "airport.crew",
+  "pk": 1,
+  "fields": {
+    "is_active": true,
+    "name": "Asha Nair",
+    "phone": "",
+    "email": "asha.crew@example.test",
+    "role": "Captain",
+    "airline": 1
+  }
+},
+{
+  "model": "airport.crew",
+  "pk": 2,
+  "fields": {
+    "is_active": true,
+    "name": "Rohan Mehta",
+    "phone": "",
+    "email": "rohan.crew@example.test",
+    "role": "First Officer",
+    "airline": 1
+  }
+},
+{
+  "model": "airport.crew",
+  "pk": 3,
+  "fields": {
+    "is_active": true,
+    "name": "Mira Das",
+    "phone": "",
+    "email": "mira.crew@example.test",
+    "role": "Cabin crew",
+    "airline": 1
+  }
+},
+{
+  "model": "airport.flight",
+  "pk": 1,
+  "fields": {
+    "is_active": true,
+    "flight_number": "NS204",
+    "airline": 1,
+    "source_airport": 1,
+    "destination_airport": 2,
+    "aircraft": 1,
+    "gate": 1,
+    "runway": 1,
+    "departure_time": "2026-10-23T09:30:00Z",
+    "arrival_time": "2026-10-23T10:45:00Z",
+    "status": "scheduled"
+  }
+},
+{
+  "model": "airport.maintenance",
+  "pk": 1,
+  "fields": {
+    "aircraft": 2,
+    "start_at": "2026-10-24T09:36:00Z",
+    "end_at": "2026-10-24T14:36:00Z",
+    "description": "Routine safety inspection",
+    "cost": "1250.00",
+    "completed": false
+  }
+},
+{
+  "model": "airport.flightschedule",
+  "pk": 1,
+  "fields": {
+    "flight": 1,
+    "crew": 1,
+    "duty_role": "Captain"
+  }
+},
+{
+  "model": "airport.flightschedule",
+  "pk": 2,
+  "fields": {
+    "flight": 1,
+    "crew": 2,
+    "duty_role": "First Officer"
+  }
+},
+{
+  "model": "airport.flightschedule",
+  "pk": 3,
+  "fields": {
+    "flight": 1,
+    "crew": 3,
+    "duty_role": "Cabin crew"
+  }
+},
+{
+  "model": "airport.passenger",
+  "pk": 1,
+  "fields": {
+    "is_active": true,
+    "name": "Sam Lee",
+    "email": "sam.lee@example.test",
+    "phone": "+91 90000 00001",
+    "passport_no": "",
+    "date_of_birth": null,
+    "nationality": "India"
+  }
+},
+{
+  "model": "airport.booking",
+  "pk": 1,
+  "fields": {
+    "is_active": true,
+    "passenger": 1,
+    "flight": 1,
+    "booking_date": "2026-10-22T09:36:44.383Z",
+    "status": "confirmed",
+    "fare": "420.00",
+    "notes": "",
+    "created_by": 2
+  }
+},
+{
+  "model": "airport.seat",
+  "pk": 1,
+  "fields": {
+    "flight": 1,
+    "seat_no": "1A",
+    "seat_class": "economy",
+    "seat_type": "window",
+    "booking": 1
+  }
+},
+{
+  "model": "airport.seat",
+  "pk": 2,
+  "fields": {
+    "flight": 1,
+    "seat_no": "1B",
+    "seat_class": "economy",
+    "seat_type": "middle",
+    "booking": null
+  }
+},
+{
+  "model": "airport.seat",
+  "pk": 3,
+  "fields": {
+    "flight": 1,
+    "seat_no": "1C",
+    "seat_class": "economy",
+    "seat_type": "aisle",
+    "booking": null
+  }
+},
+{
+  "model": "airport.seat",
+  "pk": 4,
+  "fields": {
+    "flight": 1,
+    "seat_no": "1D",
+    "seat_class": "economy",
+    "seat_type": "aisle",
+    "booking": null
+  }
+},
+{
+  "model": "airport.seat",
+  "pk": 5,
+  "fields": {
+    "flight": 1,
+    "seat_no": "1E",
+    "seat_class": "economy",
+    "seat_type": "middle",
+    "booking": null
+  }
+},
+{
+  "model": "airport.seat",
+  "pk": 6,
+  "fields": {
+    "flight": 1,
+    "seat_no": "1F",
+    "seat_class": "economy",
+    "seat_type": "window",
+    "booking": null
+  }
+},
+{
+  "model": "airport.seat",
+  "pk": 7,
+  "fields": {
+    "flight": 1,
+    "seat_no": "2A",
+    "seat_class": "economy",
+    "seat_type": "window",
+    "booking": null
+  }
+},
+{
+  "model": "airport.seat",
+  "pk": 8,
+  "fields": {
+    "flight": 1,
+    "seat_no": "2B",
+    "seat_class": "economy",
+    "seat_type": "middle",
+    "booking": null
+  }
+},
+{
+  "model": "airport.seat",
+  "pk": 9,
+  "fields": {
+    "flight": 1,
+    "seat_no": "2C",
+    "seat_class": "economy",
+    "seat_type": "aisle",
+    "booking": null
+  }
+},
+{
+  "model": "airport.seat",
+  "pk": 10,
+  "fields": {
+    "flight": 1,
+    "seat_no": "2D",
+    "seat_class": "economy",
+    "seat_type": "aisle",
+    "booking": null
+  }
+},
+{
+  "model": "airport.seat",
+  "pk": 11,
+  "fields": {
+    "flight": 1,
+    "seat_no": "2E",
+    "seat_class": "economy",
+    "seat_type": "middle",
+    "booking": null
+  }
+},
+{
+  "model": "airport.seat",
+  "pk": 12,
+  "fields": {
+    "flight": 1,
+    "seat_no": "2F",
+    "seat_class": "economy",
+    "seat_type": "window",
+    "booking": null
+  }
+},
+{
+  "model": "airport.ticket",
+  "pk": 1,
+  "fields": {
+    "booking": 1,
+    "pnr_code": "7D18769D",
+    "ticket_number": "PA-20261022-F4E900A64F",
+    "ticket_class": "economy",
+    "price": "420.00",
+    "issued_at": "2026-10-22T09:36:44.385Z"
+  }
+},
+{
+  "model": "airport.payment",
+  "pk": 1,
+  "fields": {
+    "booking": 1,
+    "amount": "420.00",
+    "paid_at": "2026-10-22T09:36:44.386Z",
+    "mode": "card",
+    "status": "succeeded",
+    "reference": "DEMO-SEED-0001"
+  }
+},
+{
+  "model": "airport.service",
+  "pk": 1,
+  "fields": {
+    "is_active": true,
+    "name": "Priority handling",
+    "description": "Priority baggage processing",
+    "charge": "18.00"
+  }
+},
+{
+  "model": "airport.baggage",
+  "pk": 1,
+  "fields": {
+    "booking": 1,
+    "weight_kg": "14.50",
+    "baggage_type": "checked",
+    "charges": "0.00",
+    "services": [
+      1
+    ]
+  }
+}
+]

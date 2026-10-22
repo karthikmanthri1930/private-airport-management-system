@@ -1,0 +1,7 @@
+{% extends "airport/base.html" %}
+{% block title %}Crew schedule{% endblock %}
+{% block breadcrumb %}Crew schedule{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">FLIGHT OPERATIONS</p><h1>Crew schedule</h1><p class="muted">Assignments are checked against airline and flight times.</p></div><a class="button primary" href="{% url 'schedule-create' %}">＋ Assign crew</a></div>
+<section class="panel table-panel">{% if assignments %}<div class="table-wrap"><table><thead><tr><th>Flight</th><th>Route</th><th>Departure</th><th>Crew member</th><th>Duty role</th></tr></thead><tbody>{% for item in assignments %}<tr><td><strong>{{ item.flight.airline.name }} {{ item.flight.flight_number }}</strong></td><td>{{ item.flight.source_airport.iata_code }} → {{ item.flight.destination_airport.iata_code }}</td><td>{{ item.flight.departure_time|date:"d M Y, H:i" }}</td><td>{{ item.crew.name }}<small>{{ item.crew.email }}</small></td><td>{{ item.duty_role }}</td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="empty-state"><span class="empty-icon">♙</span><strong>No crew assignments yet</strong><p>Assign eligible crew members to scheduled flights.</p><a class="button primary small" href="{% url 'schedule-create' %}">Assign crew</a></div>{% endif %}</section>
+{% endblock %}

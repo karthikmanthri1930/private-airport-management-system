@@ -1,0 +1,8 @@
+{% extends "airport/base.html" %}
+{% load airport_tags %}
+{% block title %}Maintenance{% endblock %}
+{% block breadcrumb %}Maintenance{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">FLEET CARE</p><h1>Maintenance</h1><p class="muted">Keep aircraft service history and availability current.</p></div><a class="button primary" href="{% url 'maintenance-create' %}">＋ Log maintenance</a></div>
+<section class="panel table-panel"><div class="panel-heading"><div><h2>Maintenance records</h2><p class="muted">Aircraft with an open maintenance window cannot be scheduled.</p></div></div>{% if records %}<div class="table-wrap"><table><thead><tr><th>Aircraft</th><th>Maintenance window</th><th>Description</th><th>Cost</th><th>Status</th><th></th></tr></thead><tbody>{% for record in records %}<tr><td><strong>{{ record.aircraft.registration }}</strong><small>{{ record.aircraft.model }}</small></td><td>{{ record.start_at|date:"d M Y, H:i" }}<small>to {{ record.end_at|date:"d M Y, H:i" }}</small></td><td>{{ record.description }}</td><td>{{ record.cost|floatformat:2 }}</td><td><span class="badge {% if record.completed %}good{% else %}warn{% endif %}">{% if record.completed %}Completed{% else %}Open{% endif %}</span></td><td><a class="table-action" href="{% url 'maintenance-edit' record.pk %}">Edit</a></td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="empty-state"><span class="empty-icon">⚙</span><strong>No maintenance records</strong><p>Service history will appear here when recorded.</p><a class="button primary small" href="{% url 'maintenance-create' %}">Log maintenance</a></div>{% endif %}</section>
+{% endblock %}

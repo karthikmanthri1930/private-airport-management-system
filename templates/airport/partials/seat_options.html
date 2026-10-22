@@ -1,0 +1,1 @@
+{% for seat in seats %}<option value="{{ seat.seat_no }}">{{ seat.seat_no }} · {{ seat.get_seat_type_display }}</option>{% empty %}<option value="">No seats available</option>{% endfor %}

@@ -1,0 +1,65 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f6f9">
+  <title>{% block title %}Airport Operations{% endblock %} · Private Airport</title>
+  <link rel="stylesheet" href="{% static 'airport/app.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+{% if user.is_authenticated %}
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="{% url 'dashboard' %}"><span class="brand-mark">PA</span><span class="brand-name">Private Airport<small>OPERATIONS</small></span></a>
+    <div class="nav-label">WORKSPACE</div>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="{% url 'dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"><span class="nav-icon">⌂</span>Overview</a>
+      <a href="{% url 'flight-list' %}" class="nav-link {% if 'flight' in request.resolver_match.url_name %}active{% endif %}"><span class="nav-icon">↗</span>Flights</a>
+      <a href="{% url 'schedule-list' %}" class="nav-link {% if 'schedule' in request.resolver_match.url_name %}active{% endif %}"><span class="nav-icon">◷</span>Crew schedule</a>
+      <a href="{% url 'maintenance-list' %}" class="nav-link {% if 'maintenance' in request.resolver_match.url_name %}active{% endif %}"><span class="nav-icon">⚙</span>Maintenance</a>
+      <a href="{% url 'booking-list' %}" class="nav-link {% if 'booking' in request.resolver_match.url_name %}active{% endif %}"><span class="nav-icon">▤</span>Bookings</a>
+      <div class="nav-label nav-spaced">DIRECTORY</div>
+      {% if is_airport_admin %}
+      <a href="{% url 'record-list' 'airlines' %}" class="nav-link"><span class="nav-icon">✈</span>Airlines</a>
+      <a href="{% url 'record-list' 'aircraft' %}" class="nav-link"><span class="nav-icon">▱</span>Aircraft</a>
+      <a href="{% url 'record-list' 'airports' %}" class="nav-link"><span class="nav-icon">◎</span>Airports & facilities</a>
+      <a href="{% url 'record-list' 'terminals' %}" class="nav-link"><span class="nav-icon">▦</span>Terminals</a>
+      <a href="{% url 'record-list' 'gates' %}" class="nav-link"><span class="nav-icon">▣</span>Gates</a>
+      <a href="{% url 'record-list' 'runways' %}" class="nav-link"><span class="nav-icon">▬</span>Runways</a>
+      <a href="{% url 'record-list' 'crew' %}" class="nav-link"><span class="nav-icon">♙</span>Crew</a>
+      <a href="{% url 'record-list' 'services' %}" class="nav-link"><span class="nav-icon">◇</span>Baggage services</a>
+      {% else %}
+      <a href="{% url 'record-list' 'airlines' %}" class="nav-link"><span class="nav-icon">✈</span>Airlines</a>
+      <a href="{% url 'record-list' 'aircraft' %}" class="nav-link"><span class="nav-icon">▱</span>Aircraft</a>
+      <a href="{% url 'record-list' 'airports' %}" class="nav-link"><span class="nav-icon">◎</span>Airports & facilities</a>
+      <a href="{% url 'record-list' 'terminals' %}" class="nav-link"><span class="nav-icon">▦</span>Terminals</a>
+      <a href="{% url 'record-list' 'gates' %}" class="nav-link"><span class="nav-icon">▣</span>Gates</a>
+      <a href="{% url 'record-list' 'runways' %}" class="nav-link"><span class="nav-icon">▬</span>Runways</a>
+      <a href="{% url 'record-list' 'crew' %}" class="nav-link"><span class="nav-icon">♙</span>Crew</a>
+      <a href="{% url 'record-list' 'services' %}" class="nav-link"><span class="nav-icon">◇</span>Baggage services</a>
+      {% endif %}
+      {% if is_airport_admin %}<a href="/admin/" class="nav-link"><span class="nav-icon">⚑</span>Admin settings</a>{% endif %}
+    </nav>
+    <div class="sidebar-bottom"><span class="status-dot"></span> Local demo environment</div>
+  </aside>
+  <div class="main-area">
+    <header class="topbar">
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-controls="sidebar" aria-expanded="false">☰</button>
+      <div class="topbar-crumb">Airport operations <span>/</span> {% block breadcrumb %}Workspace{% endblock %}</div>
+      <div class="topbar-user"><span class="avatar">{{ user.get_username|first|upper }}</span><span class="user-name">{{ user.get_username }}<small>{% if is_airport_admin %}Administrator{% else %}Operations staff{% endif %}</small></span><form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="text-button" type="submit">Sign out</button></form></div>
+    </header>
+    <main class="content">
+      {% if messages %}<div class="messages" aria-live="polite">{% for message in messages %}<div class="alert {{ message.tags|default:'info' }}">{{ message }}</div>{% endfor %}</div>{% endif %}
+      {% block content %}{% endblock %}
+      <footer class="footer">Private Airport Management <span>·</span> Local demonstration</footer>
+    </main>
+  </div>
+</div>
+{% else %}{% block anonymous_content %}{% endblock %}{% endif %}
+<script src="{% static 'airport/app.js' %}" defer></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

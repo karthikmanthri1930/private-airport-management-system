@@ -1,0 +1,30 @@
+{% extends "airport/base.html" %}
+{% load airport_tags %}
+{% block title %}Overview{% endblock %}
+{% block breadcrumb %}Overview{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <div><p class="eyebrow">OPERATIONS CENTER</p><h1>Good day, {{ user.get_username }} <span class="wave">✦</span></h1><p class="muted">Here’s the latest across your airport operations.</p></div>
+  <div class="heading-actions"><a class="button secondary" href="{% url 'booking-create' %}">＋ New booking</a><a class="button primary" href="{% url 'flight-create' %}">＋ Schedule flight</a></div>
+</div>
+<section class="metric-grid" aria-label="At a glance">
+  <article class="metric-card"><div class="metric-top"><span>Upcoming flights</span><span class="metric-icon blue">↗</span></div><strong>{{ flight_count }}</strong><small>Scheduled and active</small></article>
+  <article class="metric-card"><div class="metric-top"><span>Confirmed bookings</span><span class="metric-icon violet">▤</span></div><strong>{{ active_bookings }}</strong><small>Across all flights</small></article>
+  <article class="metric-card"><div class="metric-top"><span>Available aircraft</span><span class="metric-icon green">✈</span></div><strong>{{ aircraft_count }}</strong><small>Ready for assignment</small></article>
+  <article class="metric-card"><div class="metric-top"><span>Schedule conflicts</span><span class="metric-icon amber">⚠</span></div><strong>{{ conflict_count }}</strong><small>Overlapping assignments</small></article>
+  <article class="metric-card"><div class="metric-top"><span>Maintenance windows</span><span class="metric-icon amber">⚙</span></div><strong>{{ maintenance_count }}</strong><small>Upcoming or in progress</small></article>
+</section>
+<div class="dashboard-grid">
+  <section class="panel table-panel">
+    <div class="panel-heading"><div><h2>Next departures</h2><p class="muted">Flights scheduled from now onward</p></div><a class="inline-link" href="{% url 'flight-list' %}">All flights <span>→</span></a></div>
+    {% if upcoming_flights %}<div class="table-wrap"><table><thead><tr><th>Flight</th><th>Route</th><th>Departure</th><th>Aircraft</th><th>Status</th></tr></thead><tbody>
+      {% for flight in upcoming_flights %}<tr><td><strong>{{ flight.airline.name }} {{ flight.flight_number }}</strong><small>{{ flight.gate|default:"Gate unassigned" }}</small></td><td><span class="route-code">{{ flight.source_airport.iata_code }}</span><span class="route-arrow">→</span><span class="route-code">{{ flight.destination_airport.iata_code }}</span></td><td>{{ flight.departure_time|date:"d M, H:i" }}</td><td>{{ flight.aircraft.registration }}</td><td><span class="badge {{ flight.status|status_class }}">{{ flight.get_status_display }}</span></td></tr>{% endfor %}
+    </tbody></table></div>{% else %}<div class="empty-state"><span class="empty-icon">↗</span><strong>No upcoming flights</strong><p>Create a flight schedule to see departures here.</p><a class="button primary small" href="{% url 'flight-create' %}">Schedule a flight</a></div>{% endif %}
+  </section>
+  <section class="panel recent-panel">
+    <div class="panel-heading"><div><h2>Recent bookings</h2><p class="muted">Latest reservation activity</p></div><a class="inline-link" href="{% url 'booking-list' %}">View all <span>→</span></a></div>
+    {% if recent_bookings %}<div class="booking-list">{% for booking in recent_bookings %}<a class="booking-item" href="{% url 'booking-detail' booking.pk %}"><span class="booking-avatar">{{ booking.passenger.name|first|upper }}</span><span class="booking-main"><strong>{{ booking.passenger.name }}</strong><small>{{ booking.flight.airline.name }} {{ booking.flight.flight_number }} · {{ booking.booking_date|date:"d M, H:i" }}</small></span><span class="badge {{ booking.status|status_class }}">{{ booking.get_status_display }}</span></a>{% endfor %}</div>{% else %}<div class="empty-state compact"><span class="empty-icon">▤</span><strong>No bookings yet</strong><p>Bookings created by staff will appear here.</p></div>{% endif %}
+  </section>
+</div>
+<section class="quick-actions"><div><p class="eyebrow">QUICK ACTIONS</p><h2>Keep operations moving</h2></div><div class="quick-grid"><a href="{% url 'schedule-create' %}"><span>♙</span><strong>Assign crew</strong><small>Build a flight team</small><b>→</b></a><a href="{% url 'maintenance-create' %}"><span>⚙</span><strong>Log maintenance</strong><small>Track aircraft service</small><b>→</b></a><a href="{% url 'booking-create' %}"><span>▤</span><strong>Create booking</strong><small>Reserve a passenger seat</small><b>→</b></a></div></section>
+{% endblock %}
